@@ -25,34 +25,29 @@ export default function LoginPage() {
       className="w-full min-h-screen bg-[#D5E7FF] flex items-center justify-center p-2 sm:p-4 md:p-6 lg:p-12 overflow-x-hidden"
       style={{ fontFamily: "'Poppins', sans-serif" }}
     >
-      <div className="w-full max-w-5xl bg-white flex flex-col md:flex-row overflow-hidden shadow-2xl rounded-none md:rounded-3xl p-3 sm:p-4 md:p-5 min-h-screen md:min-h-0">
+      <div className="w-full max-w-5xl bg-white flex flex-col md:flex-row overflow-hidden shadow-2xl rounded-none md:rounded-xl p-3 sm:p-4 md:p-5 min-h-screen md:min-h-0">
 
         {/* LEFT SIDE */}
         <div className="w-full md:w-[58%] lg:w-[62%] p-5 sm:p-8 md:p-10 flex flex-col justify-center">
           <h1
             className="text-xl sm:text-3xl md:text-4xl font-bold text-black tracking-tight leading-none"
-            style={{
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 700,
-            }}
+            style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700 }}
           >
             Sign in to Processed
           </h1>
 
           <p
-            className="text-sm sm:text-base text-black -mt-2 sm:-mt-3 font-bold block pt-1"
-            style={{
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 700,
-            }}
+            className="text-sm sm:text-base text-black font-bold -mt-1"
+            style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 500 }}
           >
             Welcome back please login !
           </p>
+          
           {/* Social Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5 sm:mt-6 w-full">
             <button
               type="button"
-              className="flex items-center justify-center gap-3 border border-gray-300 rounded-xl w-full sm:w-auto px-6 h-12 font-bold hover:bg-gray-50 text-sm cursor-pointer transition-all"
+              className="flex items-center justify-center gap-3 border border-gray-300 rounded-md w-full sm:w-auto px-6 h-12 font-bold hover:bg-gray-50 text-sm cursor-pointer transition-all"
               style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontWeight: 700,
@@ -64,7 +59,7 @@ export default function LoginPage() {
 
             <button
               type="button"
-              className="flex items-center justify-center gap-3 border border-gray-300 rounded-xl w-full sm:w-auto px-6 h-12 font-bold hover:bg-gray-50 text-sm cursor-pointer transition-all"
+              className="flex items-center justify-center gap-3 border border-gray-300 rounded-md w-full sm:w-auto px-6 h-12 font-bold hover:bg-gray-50 text-sm cursor-pointer transition-all"
               style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontWeight: 700,
@@ -96,12 +91,12 @@ export default function LoginPage() {
           <input
             type="email"
             placeholder="info@nepsustech.com"
-            className="w-full h-12 border border-gray-300 rounded-xl px-4 text-sm font-medium outline-none focus:border-gray-400"
+            className="w-full h-12 border border-gray-300 rounded-md px-4 text-sm font-medium outline-none focus:border-gray-400"
             style={{ fontFamily: "'Poppins', sans-serif" }}
           />
 
           {/* Password */}
-          <div className="w-full h-12 border border-gray-300 rounded-xl px-4 flex items-center justify-between mt-3">
+          <div className="w-full h-12 border border-gray-300 rounded-md px-4 flex items-center justify-between mt-3">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="***************************"
@@ -150,7 +145,7 @@ export default function LoginPage() {
           {/* Sign In Button */}
           <button
             type="button"
-            className="w-full h-12 bg-[#e50914] hover:bg-red-700 text-white text-base rounded-xl mt-5 mb-4 sm:mb-6 font-semibold cursor-pointer transition-all flex-shrink-0"
+            className="w-full h-12 bg-[#e50914] hover:bg-red-700 text-white text-base rounded-md mt-5 mb-4 sm:mb-6 font-semibold cursor-pointer transition-all flex-shrink-0"
             style={{ fontFamily: "'Poppins', sans-serif" }}
           >
             Sign In
@@ -175,15 +170,15 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="w-full md:w-[42%] lg:w-[38%] bg-red-600 rounded-2xl p-5 sm:p-8 flex flex-col justify-between overflow-hidden">
+        <div className="w-full md:w-[42%] lg:w-[38%] bg-red-600 rounded-lg p-5 sm:p-8 flex flex-col justify-between overflow-hidden">
 
           {/* IMAGE SECTION */}
           <div className="flex-1 flex items-center justify-center pt-2 pb-6">
             <div className="relative w-[85%] sm:w-[80%] md:w-[90%] aspect-[4/3] max-h-[220px]">
 
-              <div className="absolute -top-4 -left-4 w-12 h-12 rounded-xl bg-[#cccccc] z-0"></div>
+              <div className="absolute -top-4 -left-4 w-12 h-12 rounded-md bg-[#cccccc] z-0"></div>
 
-              <div className="w-full h-full rounded-2xl overflow-hidden shadow-xl relative z-10 bg-white">
+              <div className="w-full h-full rounded-lg overflow-hidden shadow-xl relative z-10 bg-white">
                 <img
                   src={loginpage}
                   alt="Restaurant"
@@ -268,7 +263,7 @@ export default function LoginPage() {
                       key={index}
                       onMouseEnter={() => setHoveredLogo(trueIndex)}
                       onClick={() => setHoveredLogo(trueIndex)}
-                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden cursor-pointer transition-all duration-200 bg-white flex items-center justify-center p-1.5 border flex-shrink-0 ${
+                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-md overflow-hidden cursor-pointer transition-all duration-200 bg-white flex items-center justify-center p-1.5 border flex-shrink-0 ${
                         hoveredLogo === trueIndex
                           ? "scale-105 shadow-lg border-white"
                           : "opacity-80 border-transparent"
