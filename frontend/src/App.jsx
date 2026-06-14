@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./Authenticationpage/Login";
+import SignUpPage from "./Authenticationpage/SignUp";
 import DashboardPage from "./Admindashborad/Dashboard";
 import MenuPage from "./Admindashborad/Menu";
 import OrdersPage from "./Admindashborad/Orders";
@@ -35,6 +36,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
 
         <Route
           path="/dashboard"
