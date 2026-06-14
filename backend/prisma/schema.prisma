@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  name           String
+  email          String   @unique
+  password_hash  String
+  role           String   @default("cashier")
+  is_active      Boolean  @default(true)
+  created_at     DateTime @default(now())
+
+  orders         Order[]
+  expenses       Expense[]
+}
+
+model RestaurantTable {
+  id             Int      @id @default(autoincrement())
+  table_number   String   @unique
+  capacity       Int
+  status         String   @default("available")
+  floor          String   @default("Ground")
+
+  orders         Order[]
+}
+
+model MenuCategory {
+  id             Int      @id @default(autoincrement())
+  name           String
+  sort_order     Int      @default(0)
+  is_active      Boolean  @default(true)
+
+  menu_items     MenuItem[]
+}
+
+model MenuItem {
+  id             Int      @id @default(autoincrement())
+  category_id    Int
+  name           String
+  price          Decimal
+  cost_price     Decimal  @default(0)
+  tax_rate       Decimal  @default(13)
+  is_available   Boolean  @default(true)
+  image_url      String?
+
+  category       MenuCategory @relation(fields: [category_id], references: [id])
+  order_items    OrderItem[]
+}
+
+model Order {
+  id             Int      @id @default(autoincrement())
+  order_number   String   @unique
+
+  table_id       Int?
+  user_id        Int
+
+  order_type     String
+  status         String   @default("open")
+
+  subtotal       Decimal
+  tax_amount     Decimal
+  discount_amt   Decimal  @default(0)
+  total_amount   Decimal
+
+  notes          String?
+
+  created_at     DateTime @default(now())
+  paid_at        DateTime?
+
+  table          RestaurantTable? @relation(fields: [table_id], references: [id])
+  user           User @relation(fields: [user_id], references: [id])
+
+  order_items    OrderItem[]
+  invoice        Invoice?
+}
+
+model OrderItem {
+  id             Int      @id @default(autoincrement())
+
+  order_id       Int
+  menu_item_id   Int
+
+  quantity       Int
+  unit_price     Decimal
+  subtotal       Decimal
+
+  modifiers      Json?
+  notes          String?
+
+  order          Order @relation(fields: [order_id], references: [id])
+  menu_item      MenuItem @relation(fields: [menu_item_id], references: [id])
+}
+
+model Invoice {
+  id               Int      @id @default(autoincrement())
+
+  invoice_number   String   @unique
+  order_id         Int      @unique
+
+  payment_method   String
+  amount_paid      Decimal
+  change_given     Decimal  @default(0)
+
+  status           String   @default("paid")
+  created_at       DateTime @default(now())
+
+  order            Order @relation(fields: [order_id], references: [id])
+}
+
+model Expense {
+  id               Int      @id @default(autoincrement())
+
+  category         String
+  description      String
+  amount           Decimal
+
+  expense_date     DateTime
+
+  payment_method   String   @default("cash")
+
+  receipt_url      String?
+
+  recorded_by      Int
+
+  created_at       DateTime @default(now())
+
+  user             User @relation(fields: [recorded_by], references: [id])
+}
