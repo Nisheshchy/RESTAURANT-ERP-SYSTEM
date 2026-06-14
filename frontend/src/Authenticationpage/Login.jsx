@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaApple,
   FaEye,
@@ -17,8 +18,51 @@ import logo5 from "../assets/logo5.png";
 const logos = [logo1, logo2, logo3, logo4, logo5];
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [hoveredLogo, setHoveredLogo] = useState(2);
+  const [email, setEmail] = useState("info@nepsustech.com");
+  const [password, setPassword] = useState("password123");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    
+    // Simulate brief network delay for native loading experience
+    setTimeout(() => {
+      if (email === "info@nepsustech.com" && password === "password123") {
+        const userData = {
+          email,
+          name: "Admin",
+          role: "Administrator",
+          avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"
+        };
+        
+        // Store in sessionStorage (always)
+        sessionStorage.setItem("user", JSON.stringify(userData));
+        
+        // Store in localStorage if "Remember me" is checked
+        if (rememberMe) {
+          localStorage.setItem("user", JSON.stringify(userData));
+        }
+        
+        setLoading(false);
+        navigate("/dashboard");
+      } else {
+        setError("Invalid email or password. Use: info@nepsustech.com / password123");
+        setLoading(false);
+      }
+    }, 600);
+  };
+
 
   return (
     <div
@@ -87,69 +131,99 @@ export default function LoginPage() {
             <div className="flex-1 h-[1px] bg-gray-200"></div>
           </div>
 
-          {/* Email */}
-          <input
-            type="email"
-            placeholder="info@nepsustech.com"
-            className="w-full h-12 border border-gray-300 rounded-md px-4 text-sm font-medium outline-none focus:border-gray-400"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          />
+          {/* Error Message */}
+          {error && (
+            <div className="text-red-600 text-sm font-medium mt-2 bg-red-50 border border-red-200 rounded-md p-2">
+              {error}
+            </div>
+          )}
 
-          {/* Password */}
-          <div className="w-full h-12 border border-gray-300 rounded-md px-4 flex items-center justify-between mt-3">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="***************************"
-              className="w-full outline-none text-sm font-medium"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            />
-
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="cursor-pointer text-gray-600 hover:text-gray-800 font-bold"
-            >
-              {showPassword ? (
-                <FaEye className="text-xl" />
-              ) : (
-                <FaEyeSlash className="text-xl" />
-              )}
-            </button>
-          </div>
-
-          {/* Remember */}
-          <div
-            className="flex flex-row justify-between items-center mt-4 text-xs sm:text-sm w-full"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
-            <label 
-              className="flex items-center gap-2 text-black cursor-pointer select-none"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
+          <form onSubmit={handleLogin} className="flex flex-col gap-3 mt-4">
+            {/* Email */}
+            <div>
+              <label className="text-xs font-semibold text-gray-700 mb-1 block">Email Address</label>
               <input
-                type="checkbox"
-                className="w-4 h-4 rounded accent-red-600 cursor-pointer"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="info@nepsustech.com"
+                className="w-full h-12 border border-gray-300 rounded-md px-4 text-sm font-medium outline-none focus:border-gray-400"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
               />
-              Remember me
-            </label>
+            </div>
 
-            <button
-              type="button"
-              className="text-red-600 cursor-pointer font-medium hover:underline whitespace-nowrap"
+            {/* Password */}
+            <div>
+              <label className="text-xs font-semibold text-gray-700 mb-1 block">Password</label>
+              <div className="w-full h-12 border border-gray-300 rounded-md px-4 flex items-center justify-between">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="***************************"
+                  className="w-full outline-none text-sm font-medium"
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="cursor-pointer text-gray-600 hover:text-gray-800 font-bold"
+                >
+                  {showPassword ? (
+                    <FaEye className="text-xl" />
+                  ) : (
+                    <FaEyeSlash className="text-xl" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Remember */}
+            <div
+              className="flex flex-row justify-between items-center mt-2 text-xs sm:text-sm w-full"
               style={{ fontFamily: "'Poppins', sans-serif" }}
             >
-              Forgot Password ?
-            </button>
-          </div>
+              <label 
+                className="flex items-center gap-2 text-black cursor-pointer select-none"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded accent-red-600 cursor-pointer"
+                />
+                Remember me
+              </label>
 
-          {/* Sign In Button */}
-          <button
-            type="button"
-            className="w-full h-12 bg-[#e50914] hover:bg-red-700 text-white text-base rounded-md mt-5 mb-4 sm:mb-6 font-semibold cursor-pointer transition-all flex-shrink-0"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
-            Sign In
-          </button>
+              <button
+                type="button"
+                className="text-red-600 cursor-pointer font-medium hover:underline whitespace-nowrap"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
+                Forgot Password ?
+              </button>
+            </div>
+
+            {/* Sign In Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full h-12 bg-[#e50914] hover:bg-red-700 disabled:bg-red-400 text-white text-base rounded-md mt-4 mb-2 font-semibold cursor-pointer transition-all flex-shrink-0 flex items-center justify-center gap-2"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              {loading ? (
+                <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+              ) : null}
+              {loading ? "Signing In..." : "Sign In"}
+            </button>
+          </form>
 
           {/* Sign Up Footer Text */}
           <p
