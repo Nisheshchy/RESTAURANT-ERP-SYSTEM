@@ -776,7 +776,7 @@ const CustomerPage = () => {
           </div>
         </div>
 
-        {/* Footer - Fixed at bottom */}
+        {/* Footer*/}
         <footer className="py-4 text-center text-xs text-gray-400 shrink-0 border-t border-gray-200/50 bg-gray-50 w-full z-10">
           &copy; 2026 QR Order Restaurant All rights reserved.
         </footer>
