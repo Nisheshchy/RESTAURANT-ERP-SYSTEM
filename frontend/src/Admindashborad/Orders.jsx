@@ -152,12 +152,12 @@ export default function Orders() {
         </header>
 
         <main className="flex-1 p-4 sm:p-8 overflow-y-auto">
-          <div className="flex gap-2 mb-6 flex-wrap">
+          <div className="flex gap-2 mb-6 overflow-x-auto flex-nowrap -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:overflow-visible">
             {["All", "New", "Preparing", "Ready", "Completed", "Cancelled"].map(tab => (
               <button
                 key={tab}
                 onClick={() => { setActiveTab(tab); setCurrentPage(1); }}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition-all ${
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition-all shrink-0 whitespace-nowrap ${
                   activeTab === tab
                     ? "bg-[#e50914] text-white shadow-md"
                     : "border border-gray-100 bg-white text-gray-500 hover:bg-gray-50"
